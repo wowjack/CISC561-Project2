@@ -9,45 +9,24 @@ INSTRUCTIONS
 
 Setup
 -----
+1. Form groups of 2-4 to work on this project.
+    * "Groups" of one are not allowed.
+        * The era of "cowboy coding" ended decades ago, all software engineering is a team effort.
+        * You will receive a **-25% penalty** if you do not join a group.
 
-1. Form teams of 2-4 students.  You may create a corresponding github
-   team in the course organization.
+1. From the github.com interface for this repo, click `Use this
+   template` to import the starter code.  Create a new, **private** repo
+   for your team.
 
-2. From the github.com interface for this repo, click `Use this
-   template` to import the starter code.  Create a new, private repo
-   for your team in the course organization.  Name your repo
-   `TYY-project-2-TEAMNAME`, where,
-   - `T` is one charcter for the term: `f` Fall or `s` for Spring,
-   - `YY` is the two digit year, e.g. `19` for 2019,
-   - `TEAMNAME` is a name for your team.
+1. Give all team members access to your new repo.
 
-3. Clone the repo.
+1. Clone the repo.
 
-        git clone git@github.com:mines-csci561/TYY-project-2-TEAMNAME
+1. Complete the function stubs in `project-2.lisp`.
 
-5. Add all team members' names and CWIDs to the `AUTHORS` file.
-
-6. Change the remote for your cloned repo to your newly created team
-   repo and push.
-
-7. Double-check that (1) your team's github repo is correctly named
-   and (2) only your teammates (and the instructor/TA) can access your
-   team's github repo.
-
-8. Complete the function stubs in project-2.lisp.
-
-9. Answer the questions in project-2-report.tex (Use `pdflatex` to
-   compile the PDF).
-
-10. Push your code changes to your group repo in the course
-    organization before the project deadline.  At the project
-    deadline, the TA/instructor will download for grading all
-    repositories in the course organization beginning with the prefix
-    `TYY-project-2-` as described above
-
-11. Submit your report as a PDF on canvas. Include all group members'
-    names in the submitted PDF (only one group member needs to
-    submit).
+1. Answer the questions in `project-2-report.pdf`.
+    * You **must** typeset your answers
+    * ...and are *highly* recommended to use the provided `.tex` file
 
 Code
 ----
@@ -57,7 +36,7 @@ containing two sub parts.
 
 - Part 0: Conversion to conjunctive normal form:
   - Part 0.a: Convert an arbitrary Boolean expression to negation
-    normal form.  Complete the function EXP->NNF.  Expected length of
+    normal form.  Complete the function `EXP->NNF`.  Expected length of
     the entire function: about 40 lines.
   - Part 0.b: Convert a Boolean expression in negation normal form to
     conjunctive normal form.  Complete the functions %DIST-OR-AND-1
@@ -71,22 +50,25 @@ containing two sub parts.
   - Part 1.b: DPLL.  Complete the function DPLL. Expected total
     function length: about 20 lines.
 
+Submission
+==========
+
+Code
+----
+Submit `project-2.lisp` (and *only* that file) to [Project 2 - Code](https://www.gradescope.com/courses/814289/assignments/5266093) on Gradescope before the due date.
+
+* Make sure to add your teammates to the submission.
+
+Keep the same function names as given in the starter code. The grading scripts test your code based on these function names, and if you change them, your code will not pass the tests.
+
 Report
 ------
+Submit `project-2-report.pdf` to [Project 2 - Report](https://www.gradescope.com/courses/814289/assignments/5266095) on Gradescope before the due date.
 
-1. Answer the report questions in project-2-report.tex.
-
-2. Submit your report as a PDF on canvas. Include all group members'
-   names in the submitted PDF (only one group member needs to submit).
-
+* Make sure to add your teammates to the submission.
 
 Grading
 =======
-
-The grading script will download your repository from the github
-course organization at the deadline.  Your repository must (1) be
-located in the course organization and (2) have the correct prefix for
-the grading script to find it.
 
 Your code will be run for grading using (approximately) the following
 procedure:
