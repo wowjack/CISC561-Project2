@@ -21,7 +21,6 @@
 \cfoot{{\thepage} {of} {\pageref{LastPage}}}
 \renewcommand{\headrulewidth}{0pt}
 
-% \usepackage{ntdmath}
 
 \usepackage{xcolor}
 \newif\ifkey

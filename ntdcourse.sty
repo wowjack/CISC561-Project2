@@ -1,0 +1,49 @@
+\ProvidesPackage{ntdcourse}
+
+
+
+
+%%%%%%%%%%%%%%%%%
+%% Course Data %%
+%%%%%%%%%%%%%%%%%
+
+\def\coursecode{CSCI-561}
+\def\coursename{Theory of Computation}
+\def\shortcoursename{Theory}
+
+%\def\courseta{Sihui Li}
+
+\newcommand{\urlbase}{http://www.neil.dantam.name/csci-561}
+\newcommand{\theterm}{Fall 2020}
+\date{\theterm}
+
+\def\courseinstructor{Dr. Neil T. Dantam}
+\def\shortcourseinstructor{Dantam}
+
+\def\courseinstitute{Colorado School of Mines}
+\def\shortcourseinstitute{Mines}
+
+\newcommand{\thecourse}{\coursecode}
+
+
+\renewcommand{\tokenleft}[0]{\textrm{``}}
+\renewcommand{\tokenright}[0]{\textrm{''}}
+
+%%%%%%%%%%%%%%%%%%%%%%
+%% QR CODE Commands %%
+%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{qrcode}
+
+\newcommand{\slideqrcode}[3][]{
+  \hypersetup{urlcolor=black}%
+  \qrcode[#1]{\urlbase/B#2-#3.pdf}%
+  \hypersetup{urlcolor=blue}%
+}
+
+\newcommand{\slideurl}[2]{\url{\urlbase/B#1-#2.pdf}}
+
+\newcommand{\handoutslidelink}[2]{
+  \slideqrcode[height=\columnwidth]{#1}{#2}\\
+  \vspace{1em}
+}

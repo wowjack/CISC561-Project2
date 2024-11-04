@@ -1,0 +1,13 @@
+;; (or (and x y z) (and a b c))
+;;     => (and (or x (and a b c))
+;;             (or y (and a b c))
+;;             (or z (and a b c)))
+;;     => (and (and (or x a) (or x b) (or x c))
+;;             (and (or y a) (or y b) (or y c))
+;;             (and (or z a) (or z b) (or z c)))
+;;     => (and (or x a) (or x b) (or x c)
+;;             (or y a) (or y b) (or y c)
+;;             (or z a) (or z b) (or z c))
+
+(%dist-or-and-and '(and (or x) (or y) (or z))
+                  '(and (or a) (or b) (or c)))

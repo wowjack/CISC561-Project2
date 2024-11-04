@@ -98,6 +98,7 @@
 \newcommand{\powerset}[1]{\ensuremath{\mathcal{P}\left({#1}\right)}}
 \newcommand{\iseq}{\stackrel{?}{=}}
 \newcommand{\isin}{\stackrel{?}{\in}}
+\newcommand{\issubseteq}[0]{\stackrel{?}{\subseteq}}
 
 \newcommand{\langmark}[1]{{\ensuremath{\langsym_m\left(#1\right)}}}
 \newcommand{\langgen}[1]{{\ensuremath{\langsym_g\left(#1\right)}}}
@@ -182,7 +183,9 @@
 
 %\newcommand{\nonterm}[1]{\ensuremath{\langle\DataSty{#1}\rangle}}
 \newcommand{\nonterm}[1]{\ensuremath{\langle{#1}\rangle}}
-\newcommand{\token}[1]{\ensuremath{\left[\rm{#1}\right]}}
+\newcommand{\tokenleft}[0]{\left[}
+\newcommand{\tokenright}[0]{\right]}
+\newcommand{\token}[1]{\ensuremath{\tokenleft{\rm{#1}}\tokenright}}
 \newcommand{\terminal}[1]{\ensuremath{\DataSty{``#1''}}}
 \newcommand{\terminalm}[1]{\ensuremath{\text{``}{#1}\text{''}}}
 
