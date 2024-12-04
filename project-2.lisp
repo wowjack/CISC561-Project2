@@ -101,13 +101,17 @@ If LIST already contains ELEMENT, LIST is returned unchanged"
 ;; ---------
 ;;
 ;; (exp->nnf '(not (not a))) => a
+(exp->nnf '(not (not a)))
 ;;
 ;; (exp->nnf '(not (and a b))) => (OR (NOT A) (NOT B))
+(exp->nnf '(not (and a b)))
 ;;
 ;; (exp->nnf '(not (or a (not b)))) => (AND (NOT A) B)
 ;;
+(exp->nnf '(not (or a (not b))))
 ;; (exp->nnf '(not (:iff a b))) =>
 ;;               (OR (AND A (NOT B)) (AND B (NOT A)))
+(exp->nnf '(not (:iff a b)))
 ;;
 (defun exp->nnf (e)
   "Convert an expression to negation normal form."
@@ -122,20 +126,30 @@ If LIST already contains ELEMENT, LIST is returned unchanged"
                    (case op
                      (:implies
                       (destructuring-bind (a b) args
-                        (TODO 'exp->nnf-implies)))
+                             (if truth
+                                 (list 'or (visit a nil) (visit b t))
+                                 (list 'and (visit a t) (visit b nil)))))
                      (:xor
                       (destructuring-bind (a b) args
-                        (TODO 'exp->nnf-xor)))
+                             (if truth
+                                 `(and (or ,(visit a t) ,(visit b t)) (or ,(visit a nil) ,(visit b nil)))
+                                 `(or (and ,(visit a nil) ,(visit b nil)) (and ,(visit a t) ,(visit b t))))))
                      (:iff
                       (destructuring-bind (a b) args
-                        (TODO 'exp->nnf-iff)))
+                             (if truth
+                                 `(and ,(visit `(:implies ,a ,b) t) ,(visit `(:implies ,b ,a) t))
+                                 `(or ,(visit `(:implies ,a ,b) nil) ,(visit `(:implies ,b ,a) nil)))))
                      (not
                       (assert (and args (null (cdr args))))
                       (visit (car args) (not truth)))
                      (and
-                      (TODO 'exp->nnf-and))
+                      (if truth
+                               (cons 'and (fold (lambda (acc x) (cons (visit x t) acc)) '() args))
+                               (cons 'or (fold (lambda (acc x) (cons (visit x nil) acc)) '() args))))
                      (or
-                      (TODO 'exp->nnf-or))
+                      (if truth
+                               (cons 'or (fold (lambda (acc x) (cons (visit x t) acc)) '() args))
+                               (cons 'and (fold (lambda (acc x) (cons (visit x nil) acc)) '() args))))
                      (otherwise
                       (base e truth)))))))
 
