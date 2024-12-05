@@ -264,9 +264,13 @@ That is: T"
 ;; The result is in conjunctive normal form
 (defun %dist-or-and-1 (literals and-exp)
   (assert (every #'lit-p literals))
-  (assert (cnf-p and-exp))
+  (assert (cnf-p and-exp)) ;; cnf-p requires no literals under the and, only or expressions
   `(or ,@literals ,and-exp)
-  (TODO '%dist-or-and-1))
+  (cons 'and (map
+             'list
+             (lambda (or-exp) `(or ,@(rest or-exp) ,@literals))
+             (rest and-exp))))
+(%dist-or-and-1 '(l1 l2 l3) '(and (or l4 l5) (or l5 l6)))
 
 ;; Distribute OR over two AND expressions:
 ;;
@@ -278,7 +282,20 @@ That is: T"
   (assert (cnf-p and-exp-1))
   (assert (cnf-p and-exp-2))
   `(or ,and-exp-1 ,and-exp-2)
-  (TODO '%dist-or-and-and))
+  ;; get 2-combinations of or-expressions from and-exp-1 and and-exp-2
+  ;; combine each pair into a single or-expression
+  ;; and them all together
+  (cons 'and (fold
+                 (lambda (acc or-exp-1)
+                   (fold
+                       (lambda (acc or-exp-2) (cons (cons 'or (append (rest or-exp-1) (rest or-exp-2))) acc))
+                       acc
+                       (rest and-exp-2)))
+                 '()
+                 (rest and-exp-1))))
+(%dist-or-and-and
+ '(and (or l1 l2) (or l3 l4))
+ '(and (or l5 l6) (or l7 l8) (or l9 l10)))
 
 ;; Distribute n-ary OR over the AND arguments:
 ;;
@@ -414,7 +431,15 @@ Returns: (VALUES maxterms (LIST bindings-literals...))"
   (assert (every #'maxterm-p maxterms))
   (assert (every #'lit-p bindings))
   ;; HINT: use DPLL-BIND
-  (TODO 'dpll-unit-propagate))
+  ;; Find unit clauses, bind each unit clause
+  (let ((unit-clause (find-if #'maxterm-unit-p maxterms)))
+    (if unit-clause
+        (multiple-value-bind (new-maxterms new-bindings)
+            (dpll-bind maxterms (second unit-clause) bindings)
+            (dpll-unit-propagate new-maxterms new-bindings))
+        (values maxterms bindings))))
+
+(dpll-unit-propagate '((or a) (or (not b)) (or b c) (or (not d) g)) '())
 
 
 (defun dpll-choose-literal (maxterms)
@@ -447,7 +472,12 @@ Returns: (VALUES (OR T NIL) (LIST bindings-literals...))"
       ((some #'maxterm-false-p maxterms) ; Base case: some maxterm is false
        (values nil bindings))
       (t ; Recursive case
-       (TODO 'dpll)))))
+       (let ((random-literal (dpll-choose-literal maxterms)))
+         (multiple-value-bind (sat sat-bindings) (dpll (dpll-bind maxterms random-literal bindings) (cons random-literal bindings))
+           (if sat
+               (values sat sat-bindings)
+               (dpll (dpll-bind maxterms (not-exp random-literal) bindings) (cons (not-exp random-literal) bindings)))))))))
+
 
 (defun sat-p (e)
   "Check satisfiability of e."
